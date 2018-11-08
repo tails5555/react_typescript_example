@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import CalculatorPage from '../container/CalculatorPage';
+import {HomeContainerPage, CalculatorPage} from '../container';
 
 const RootRouter : React.StatelessComponent<{}> = () => (
     <React.Fragment>
+        <Route exact path="/" component={HomeContainerPage} />
         <Route exact path="/example/calculator" component={CalculatorPage} />
     </React.Fragment>
 );
