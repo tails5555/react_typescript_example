@@ -9,6 +9,18 @@ class PhoneForm {
         this.phones = phones;
     }
 
+    set setName(name : string) {
+        this.name = name;
+    }
+
+    set setAddress(address : string) {
+        this.address = address;
+    }
+
+    set setPhones(phones : string[]) {
+        this.phones = phones;
+    }
+
     get getName() : string {
         return this.name;
     }
@@ -17,7 +29,7 @@ class PhoneForm {
         return this.address;
     }
 
-    get getPhone() : string[] {
+    get getPhones() : string[] {
         return this.phones;
     }
 }

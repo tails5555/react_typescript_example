@@ -13,26 +13,26 @@ export function findAll() : PhoneModel[] {
 } 
 
 export function findOne(id : number) : PhoneModel | null {
-    const phone = phones.find((phone) => phone.getId === id);
+    const phone = phones.find((eachPhone) => eachPhone.getId === id);
     return phone === undefined ? null : phone;
 }
 
 export function create(phoneForm : PhoneForm) : string {
     const lastPhone = phones.slice(-1);
     if(lastPhone !== undefined) {
-        const newPhone = new PhoneModel(lastPhone[0].getId + 1, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhone);
+        const newPhone = new PhoneModel(lastPhone[0].getId + 1, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhones);
         phones.push(newPhone);
     } else {
-        const newPhone = new PhoneModel(1, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhone);
+        const newPhone = new PhoneModel(1, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhones);
         phones.push(newPhone);
     }
     return `${phoneForm.getName} 님의 전화 번호 정보가 추가 되었습니다.`;
 }
 
 export function update(id : number, phoneForm : PhoneForm) : string {
-    const idx = phones.map(phone => phone.getId).indexOf(id);
+    const idx = phones.map(eachPhone => eachPhone.getId).indexOf(id);
     if(idx !== -1) {
-        phones[idx] = new PhoneModel(id, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhone);
+        phones[idx] = new PhoneModel(id, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhones);
         return `${phoneForm.getName} 님의 전화 번호 정보가 변경 되었습니다.`;
     } else {
         return `${phoneForm.getName} 님의 전화 번호 정보가 존재하지 않습니다.`;
