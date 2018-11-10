@@ -9,6 +9,7 @@ const RootRouter : React.StatelessComponent<{}> = () => (
         <Route exact path="/example/phone_list" component={PhoneBookPage} />
         <Route exact path="/example/phone_list/_refresh" render={() => <Redirect to="/example/phone_list" />} />
         <Route exact path="/example/phone_create" component={PhoneFormPage} />
+        <Route exact path="/example/phone_update/:id" component={PhoneFormPage} />
     </React.Fragment>
 );
 

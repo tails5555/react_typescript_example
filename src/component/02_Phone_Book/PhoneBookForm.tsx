@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { create } from './PhoneAction';
+import { create, update, deleteById, findOne } from './PhoneAction';
 import PhoneForm from './PhoneForm';
 import PhoneError from './PhoneError';
 import InputRender from './InputRender';
@@ -24,11 +24,26 @@ class PhoneBookForm extends React.Component<Props, State> {
         this.handleChangeArrayData = this.handleChangeArrayData.bind(this);
     }
 
+    public componentDidMount() {
+        const { match, location } = this.props;
+        if(location.pathname.includes('update')) {
+            const { id } = match.params;
+            if(id !== 0){
+                const phoneForm = findOne(id * 1);
+                if(phoneForm !== null){
+                    const tmpPhones = phoneForm.getPhone;
+                    const tmpPhoneErrors : string[] = Array(tmpPhones.length).fill('');
+                    this.setState({ error : new PhoneError('', '', tmpPhoneErrors), phone : new PhoneForm(phoneForm.getName, phoneForm.getAddress, phoneForm.getPhone) });
+                }
+            }
+        }    
+    }
+
     public handleSubmitData = (event : any) => {
         event.preventDefault();
         let hasError = false;
         const { error, phone } = this.state;
-        const { location, history } = this.props;
+        const { match, location, history } = this.props;
 
         if(phone.getName.trim() === ''){
             error.setNameMessage = '이름을 입력하셔야 됩니다.';
@@ -74,6 +89,10 @@ class PhoneBookForm extends React.Component<Props, State> {
             const { pathname } = location;
             if(pathname.includes('create')) {
                 alert(create(phone));
+                history.push('/example/phone_list');
+            } else {
+                const { id } = match.params;
+                alert(update(id * 1, phone));
                 history.push('/example/phone_list');
             }
         }
@@ -122,6 +141,17 @@ class PhoneBookForm extends React.Component<Props, State> {
         this.setState({ error, phone });
     }
 
+    public handleClickDeleteElement = () => {
+        const { match, history } = this.props;
+        const { phone } = this.state;
+        const isDelete = window.confirm(`${phone.getName} 님의 연락처를 삭제 합니다. 계속 진행 하시겠습니까?`);
+        if(isDelete){
+            const { id } = match.params;
+            alert(deleteById(id * 1));
+            history.push('/example/phone_list');
+        }
+    }
+
     public render(){
         const { location } = this.props;
         const { error, phone } = this.state;
@@ -129,6 +159,12 @@ class PhoneBookForm extends React.Component<Props, State> {
             <React.Fragment>
                 <h1>연락처 { location.pathname.includes('create') ? '추가' : '수정' }</h1>
                 <hr/>
+                {
+                    location.pathname.includes('update') ? 
+                        <div className="text-right">
+                            <button type="button" className="btn btn-danger" onClick={() => this.handleClickDeleteElement()}>삭제</button>
+                        </div> : null 
+                }
                 <form onSubmit={this.handleSubmitData}>
                     <InputRender label="이름" value={phone.getName} name="name" onChange={this.handleChangeData} error={error.getNameMessage} />
                     <InputRender label="주소" value={phone.getAddress} name="address" onChange={this.handleChangeData} error={error.getAddressMessage} />

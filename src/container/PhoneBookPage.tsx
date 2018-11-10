@@ -4,7 +4,7 @@ import { PhoneListTable } from '../component/02_Phone_Book';
 
 const PhoneBookPage : React.StatelessComponent<RouteComponentProps<any>> = ({history, location, match}) => (
     <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
-        <h1>React Phone Book Example</h1>
+        <h1>연락처 목록</h1>
         <hr/>
         <div id="button_list" className="text-right" style={{ marginTop : '10px', marginBottom : '10px' }}>
             <Link to="./phone_create">

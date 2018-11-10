@@ -13,8 +13,8 @@ export function findAll() : PhoneModel[] {
 } 
 
 export function findOne(id : number) : PhoneModel | null {
-    const phone = phones.find((eachPhone) => eachPhone.getId === id);
-    return phone === undefined ? null : phone;
+    const phone = phones.filter(phoneModel => phoneModel.getId === id);
+    return phone.length === 0 ? null : phone[0];
 }
 
 export function create(phoneForm : PhoneForm) : string {
