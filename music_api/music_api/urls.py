@@ -19,7 +19,7 @@ from django.urls import path
 from rest_framework import routers
 from music.views import MusicViewSet, GenreViewSet, PublisherViewSet
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register('music', MusicViewSet)
 router.register('genre', GenreViewSet)
 router.register('publisher', PublisherViewSet)
