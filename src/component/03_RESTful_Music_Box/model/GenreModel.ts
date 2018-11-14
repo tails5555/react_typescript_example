@@ -1,6 +1,6 @@
 class GenreModel {
-    id : number;
-    name : string;
+    private id : number;
+    private name : string;
 
     constructor(id : number, name : string){
         this.id = id;

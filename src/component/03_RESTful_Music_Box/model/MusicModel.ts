@@ -7,15 +7,19 @@ class MusicModel {
     private singer : string;
     private year : number;
     private genre : GenreModel | null;
+    private genreId : number;
     private publisher : PublisherModel | null;
+    private publisherId : number;
 
-    constructor(id : number, title : string, singer : string, year : number){
+    constructor(id : number, title : string, singer : string, year : number, genreId : number, publisherId : number){
         this.id = id;
         this.title = title;
         this.singer = singer;
         this.year = year;
         this.genre = null;
+        this.genreId = genreId;
         this.publisher = null;
+        this.publisherId = publisherId;
     }
 
     set setId(id : number) {
@@ -38,8 +42,16 @@ class MusicModel {
         this.genre = genre;
     }
 
+    set setGenreId(genreId : number) {
+        this.genreId = genreId;
+    }
+
     set setPublisher(publisher : PublisherModel) {
         this.publisher = publisher;
+    }
+
+    set setPublisherId(publisherId : number) {
+        this.publisherId = publisherId;
     }
 
     get getId() {
@@ -62,8 +74,16 @@ class MusicModel {
         return this.genre;
     }
 
+    get getGenreId(){
+        return this.genreId;
+    }
+
     get getPublisher() {
         return this.publisher;
+    }
+
+    get getPublisherId() {
+        return this.publisherId;
     }
 }
 

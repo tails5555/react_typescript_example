@@ -34,6 +34,7 @@ class PhoneListTable extends React.Component<Props, State> {
             history.push('/example/phone_list/_refresh');
         }
     }
+    
     public render(){
         const { history, location, match } = this.props;
         const { phones } = this.state;
