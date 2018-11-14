@@ -19,7 +19,7 @@ export function findOne(id : number) : PhoneModel | null {
 
 export function create(phoneForm : PhoneForm) : string {
     const lastPhone = phones.slice(-1);
-    if(lastPhone !== undefined) {
+    if(phones.length > 0) {
         const newPhone = new PhoneModel(lastPhone[0].getId + 1, phoneForm.getName, phoneForm.getAddress, phoneForm.getPhones);
         phones.push(newPhone);
     } else {
