@@ -12,7 +12,7 @@ const MusicTablePage : React.StatelessComponent<RouteComponentProps<any>> = ({hi
             </Link>
         </div>
         <div id="music_table" style={{ marginTop : '10px', marginBottom : '10px' }}>
-            <MusicListView />
+            <MusicListView history={history} location={location} match={match} />
         </div>
         <Link to="/">
             <button className="btn btn-info btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>이전으로</button>

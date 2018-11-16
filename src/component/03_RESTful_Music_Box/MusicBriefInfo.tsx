@@ -1,10 +1,11 @@
 import * as React from 'react';
 import axios from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
 import { genre_find_one } from './action/action_genre';
 import { publisher_find_one } from './action/action_publisher';
 import { MusicModel, GenreModel, PublisherModel } from './model';
 
-interface Props {
+interface Props extends RouteComponentProps<any> {
     music : MusicModel;
 }
 
@@ -56,10 +57,15 @@ class MusicBriefInfo extends React.Component<Props, State> {
         );
     }
 
+    public handleClickPushing = (id : number) => {
+        const { history } = this.props;
+        history.push(`/example/music_update/${id}`);
+    }
+
     public render() {
         const { music, genre, publisher } = this.state;
         return (
-            <tr>
+            <tr onClick={() => this.handleClickPushing(music.getId)}>
                 <td>{music.getId}</td>
                 <td>{music.getTitle}</td>
                 <td>{music.getSinger}</td>

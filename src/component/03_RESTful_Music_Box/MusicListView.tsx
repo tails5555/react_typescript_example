@@ -1,13 +1,18 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { music_find_all } from './action/action_music';
 import { MusicModel } from './model';
 import MusicBriefInfo from './MusicBriefInfo';
+
+interface Props extends RouteComponentProps<any> {
+
+}
 
 interface State {
     musics : MusicModel[];
 }
 
-class MusicListView extends React.Component<{}, State> {
+class MusicListView extends React.Component<Props, State> {
     constructor(props : any){
         super(props);
         this.state = { musics : [] };
@@ -24,8 +29,9 @@ class MusicListView extends React.Component<{}, State> {
     }
 
     public render() {
+        const { history, location, match } = this.props;
         const { musics } = this.state;
-        const musicBodyRows : any = musics.map((music, idx) => <MusicBriefInfo music={music} key={`music_key_${idx}`} />);
+        const musicBodyRows : any = musics.map((music, idx) => <MusicBriefInfo music={music} key={`music_key_${idx}`} history={history} location={location} match={match} />);
         return (
             <React.Fragment>
                 <table className="table text-center">

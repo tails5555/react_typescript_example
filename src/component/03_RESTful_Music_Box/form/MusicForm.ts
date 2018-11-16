@@ -1,11 +1,11 @@
 class MusicForm {
     private title : string;
     private singer : string;
-    private year : number;
+    private year : string;
     private genreId : number;
     private publisherId : number;
     
-    constructor(title : string, singer : string, year : number, genreId : number, publisherId : number) {
+    constructor(title : string, singer : string, year : string, genreId : number, publisherId : number) {
         this.title = title;
         this.singer = singer;
         this.year = year;
@@ -21,7 +21,7 @@ class MusicForm {
         this.singer = singer;
     }
 
-    set setYear(year : number) {
+    set setYear(year : string) {
         this.year = year;
     }
 

@@ -12,7 +12,7 @@ const HomeContainerPage : React.StatelessComponent<{}> = () => (
             <Link to="/example/phone_list">
                 <button className="btn btn-primary btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>02_Phone_Book</button>
             </Link>
-            <Link to="/example/music_rest">
+            <Link to="/example/music_list">
                 <button className="btn btn-primary btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>03_Music_REST_Example</button>
             </Link>
         </div>
