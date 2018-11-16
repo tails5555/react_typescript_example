@@ -20,7 +20,14 @@ export function music_create(musicForm : MusicForm) : any {
     return axios({
         url : `${MUSIC_ROOT_URL}`,
         method : 'post',
-        data : musicForm
+        data : {
+            id : 0,
+            title : musicForm.getTitle,
+            singer : musicForm.getSinger,
+            year : musicForm.getYear,
+            genre : musicForm.getGenreId,
+            publisher : musicForm.getPublisherId
+        }
     });
 }
 
@@ -28,7 +35,14 @@ export function music_update(id : number, musicForm : MusicForm) : any {
     return axios({
         url : `${MUSIC_ROOT_URL}/${id}`,
         method : 'put',
-        data : musicForm
+        data : {
+            id,
+            title : musicForm.getTitle,
+            singer : musicForm.getSinger,
+            year : musicForm.getYear,
+            genre : musicForm.getGenreId,
+            publisher : musicForm.getPublisherId
+        }
     });
 }
 

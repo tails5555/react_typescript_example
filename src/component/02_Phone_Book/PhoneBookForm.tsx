@@ -50,7 +50,6 @@ class PhoneBookForm extends React.Component<Props, State> {
             hasError = true;
         } else {
             error.setNameMessage = '';
-            hasError = false;
         }
 
         if(phone.getAddress.trim() === ''){
@@ -58,13 +57,12 @@ class PhoneBookForm extends React.Component<Props, State> {
             hasError = true;
         } else {
             error.setAddressMessage = '';
-            hasError = false;
         }
 
         const tmpPhonesError : string[] = error.getPhonesMessage;
         const numberRegex = /[0-9]/g;
         for(let k=0;k<phone.getPhones.length;k++){
-            if(phone.getPhones[k].trim() === '') {
+            if(phone.getPhones[k] === '' || phone.getPhones[k].trim() === '') {
                 tmpPhonesError[k] = '전화번호를 입력하셔야 됩니다.';
             }
             else if(!phone.getPhones[k].match(numberRegex)){
@@ -121,23 +119,31 @@ class PhoneBookForm extends React.Component<Props, State> {
 
     public handleClickAddPhone = () => {
         const { phone, error } = this.state;
+
         const tmpPhones : string[] = phone.getPhones.slice();
         const tmpErrors : string[] = error.getPhonesMessage.slice();
+
         tmpPhones.push('');
         tmpErrors.push('');
+
         phone.setPhones = tmpPhones;
         error.setPhonesMessage = tmpErrors;
+
         this.setState({ error, phone });
     }
     
     public handleClickDeletePhone = (idx : number) => {
         const { phone, error } = this.state;
+
         const tmpPhones = phone.getPhones.slice();
         const tmpErrors = error.getPhonesMessage.slice();
+
         tmpPhones.splice(idx, 1);
         tmpErrors.splice(idx, 1);
+
         phone.setPhones = tmpPhones;
         error.setPhonesMessage = tmpErrors;
+        
         this.setState({ error, phone });
     }
 

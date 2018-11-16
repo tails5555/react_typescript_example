@@ -13,19 +13,33 @@ interface State {
 }
 
 class MusicListView extends React.Component<Props, State> {
+    private static isMounted : boolean;
+    
     constructor(props : any){
         super(props);
+        MusicListView.isMounted = false;
         this.state = { musics : [] };
     }
 
     public componentDidMount(){
+        MusicListView.isMounted = true;
+        this.getMusicInfo();
+    }
+
+    public async getMusicInfo() {
         music_find_all().then((response : any) => {
             const { data } = response;
             const musicData : MusicModel[] = data.map((music : any) => new MusicModel(music.id, music.title, music.singer, music.year, music.genre, music.publisher));
-            this.setState({
-                musics : musicData
-            });
+            if(MusicListView.isMounted){
+                this.setState({
+                    musics : musicData
+                });
+            }
         })
+    }
+
+    public componentWillUnmount() {
+        MusicListView.isMounted = false;
     }
 
     public render() {

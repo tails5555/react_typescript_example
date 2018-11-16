@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { music_find_one } from './action/action_music';
+import { music_find_one, music_create, music_update, music_delete } from './action/action_music';
 import { genre_find_all } from './action/action_genre';
 import { publisher_find_all } from './action/action_publisher';
 
@@ -64,6 +64,7 @@ class MusicModelForm extends React.Component<Props, State> {
         event.preventDefault();
 
         let hasError = false;
+        const { history, match } = this.props;
         const { error, music } = this.state;
 
         if(music.getTitle.trim() === ''){
@@ -71,7 +72,6 @@ class MusicModelForm extends React.Component<Props, State> {
             hasError = true;
         } else {
             error.setTitleMessage = '';
-            hasError = false;
         }
 
         if(music.getSinger.trim() === ''){
@@ -79,23 +79,40 @@ class MusicModelForm extends React.Component<Props, State> {
             hasError = true;
         } else {
             error.setSingerMessage = '';
-            hasError = false;
         }
 
-        const numberRegex = /[0-9]/g;
-        if(music.getYear.trim() === '') {
+        if(typeof music.getYear === "string" && music.getYear.trim() === '') {
             error.setYearMessage = '연도를 입력하셔야 됩니다.';
             hasError = true;
-        } else if(!music.getYear.match(numberRegex)) {
+        } else if(typeof music.getYear === "string" && isNaN(Number(music.getYear))) {
             error.setYearMessage = '연도는 숫자로만 입력하시길 바랍니다.';
             hasError = true;
         } else {
             error.setYearMessage = '';
-            hasError = false;
         }
 
         if(hasError) {
             this.setState({error});
+        } else {
+            const { pathname } = location;
+            if(pathname.includes('create')) {
+                music_create(music).then((response : any) => {
+                    const { status } = response;
+                    if(status === 201){
+                        alert(`음악 ${music.getTitle} 이(가) 추가 되었습니다.`);
+                        history.push('/example/music_list/_refresh');
+                    }
+                });                
+            } else {
+                const { id } = match.params;
+                music_update(Number(id), music).then((response : any) => {
+                    const { status } = response;
+                    if(status === 200){
+                        alert(`음악 ${music.getTitle} 이(가) 수정 되었습니다.`);
+                        history.push('/example/music_list/_refresh');
+                    }
+                });
+            }
         }
     }
 
@@ -123,11 +140,18 @@ class MusicModelForm extends React.Component<Props, State> {
     }
 
     public handleClickDeleteElement = () => {
-        const { history } = this.props;
+        const { history, match } = this.props;
         const { music } = this.state;
         const isDelete = window.confirm(`${music.getTitle} 음악을 삭제 합니다. 계속 진행 하시겠습니까?`);
         if(isDelete){
-            history.push('/example/music_list');
+            const { id } = match.params;
+            music_delete(Number(id)).then((response : any) => {
+                const { status } = response;
+                if(status === 204){
+                    alert(`음악 ${music.getTitle} 이(가) 삭제 되었습니다.`);
+                    history.push('/example/music_list/_refresh');
+                }
+            });
         }
     }
 

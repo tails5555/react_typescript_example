@@ -4,8 +4,7 @@ React.js 를 JavaScript 에서 작성한 굴레를 벗어나, TypeScript 을 이
 
 ## What Is TypeScript?
 
-타입스크립트(TypeScript)는 
-Microsoft 에서 제작하였으며, JS 에서 못 했던 변수의 **타입**을 명시할 수 있습니다.
+타입스크립트(TypeScript)는 Microsoft 에서 제작하였으며, JS 에서 못 했던 변수의 **타입**을 명시할 수 있습니다.
 
 순수 자바스크립트에서 변수나 함수 종류에 따른 에러를 짐작하기 힘들었지만, 적어도 이에 따른 명시가 있으면 어떤 부분에서 오류가 걸렸는지 짐작이 가능하게 해 줍니다.
 
@@ -61,6 +60,20 @@ Web Browser 에서 실제로 작동하는 JavaScript 의존성은 dependencies �
 그러나 React 관련 라이브러리를 새로 추가하여 적용 할 때, TypeScript 제공 여부를 확인하셔야 됩니다. (예를 들어 `react-router-dom` 인 경우, `@types/react-router-dom`.)
 
 대부분 TypeScript 을 제공하는 경우에, NPM Library Package 이름 앞에 @types 가 붙게 됩니다. 이를 devDependencies 에 의존성 추가를 하면 되는데 install or add 명령어 맨 마지막에 `--save-dev`를 추가하시면 됩니다.
+
+## Examples Of Study
+
+- Chapter 01. 간단한 계산기 Application 만들기
+
+- Chapter 02. No Server 전화 번호부 만들기
+
+- Chapter 03. AJAX(axios) 를 이용한 음악 목록 만들기
+
+    - Server 는 django REST Framework 를 사용 했습니다.
+  
+    - AJAX 라이브러리는 axios 를 사용 했습니다.
+
+- Chapter 04. Redux 를 이용한 음악 목록 주고 받기(예정)
 
 ## Thanks To
 
