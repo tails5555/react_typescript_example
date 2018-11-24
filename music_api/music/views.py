@@ -8,6 +8,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 class MusicViewSet(viewsets.ModelViewSet) :
     queryset = Music.objects.all()
     serializer_class = MusicSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filter_fields = ('genre', 'publisher', )
 
 class GenreViewSet(viewsets.ModelViewSet) :
     queryset = Genre.objects.all()

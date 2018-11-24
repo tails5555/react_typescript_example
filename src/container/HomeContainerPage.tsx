@@ -15,6 +15,12 @@ const HomeContainerPage : React.StatelessComponent<{}> = () => (
             <Link to="/example/music_list">
                 <button className="btn btn-primary btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>03_Music_REST_Example</button>
             </Link>
+            <Link to="/example/genre_list">
+                <button className="btn btn-primary btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>03_01_Genre_REST_Example</button>
+            </Link>
+            <Link to="/example/publisher_list">
+                <button className="btn btn-primary btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>03_02_Publisher_REST_Example</button>
+            </Link>
         </div>
     </div>
 );

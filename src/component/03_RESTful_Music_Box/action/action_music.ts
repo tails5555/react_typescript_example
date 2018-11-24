@@ -6,14 +6,21 @@ export function music_find_all() : any {
     return axios({
         url : MUSIC_ROOT_URL,
         method : 'get'
-    })
+    });
 }
 
 export function music_find_one(id : number) : any {
     return axios({
         url : `${MUSIC_ROOT_URL}/${id}`,
         method : 'get'
-    })
+    });
+}
+
+export function music_find_by_genre(genreId : number) : any {
+    return axios({
+        url : `${MUSIC_ROOT_URL}/?genre=${genreId}`,
+        method : 'get'
+    });
 }
 
 export function music_create(musicForm : MusicForm) : any {
