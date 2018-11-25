@@ -5,7 +5,7 @@ import { GenreListView } from '../component/03_RESTful_Music_Box';
 
 const GenreListPage : React.StatelessComponent<RouteComponentProps<any>> = ({history, location, match}) => (
     <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
-        <h1>장르 목록 조회</h1>
+        <h1 className="text-center">장르 목록 조회</h1>
         <hr/>
         <div id="button_list" className="text-right" style={{ marginTop : '10px', marginBottom : '10px' }}>
             <Link to="./genre_create">

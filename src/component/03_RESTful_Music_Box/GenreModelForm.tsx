@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-// import { music_find_by_genre } from './action/action_music';
 import { genre_create, genre_update, genre_delete, genre_find_one } from './action/action_genre';
 
-import { MusicModel } from './model';
 import { GenreForm } from './form';
 import { GenreError } from './error';
 
 import { InputRender } from './form_render';
+import GenreMusicListView from './GenreMusicListView';
+import { isNullOrUndefined } from 'util';
 
 interface Props extends RouteComponentProps<any> {
 
@@ -17,13 +17,12 @@ interface Props extends RouteComponentProps<any> {
 interface State {
     genre : GenreForm;
     error : GenreError;
-    musics : MusicModel[];
 }
 
 class GenreModelForm extends React.Component<Props, State> {
     constructor(props : any){
         super(props);
-        this.state = { genre : new GenreForm(''), error : new GenreError(''), musics : [] };
+        this.state = { genre : new GenreForm(''), error : new GenreError('') };
         this.handleSubmitData = this.handleSubmitData.bind(this);
         this.handleChangeData = this.handleChangeData.bind(this);
     }
@@ -110,24 +109,39 @@ class GenreModelForm extends React.Component<Props, State> {
     }
 
     public render(){
-        const { location } = this.props;
+        const { location, match } = this.props;
         const { genre, error } = this.state;
-        
+        let genreId : number = 0;
+        if(!isNullOrUndefined(match.params.id)){
+            genreId = Number(match.params.id);
+        }
+
         return (
             <React.Fragment>
-                <h1>장르 { location.pathname.includes('create') ? '추가' : '수정' }</h1>
-                <hr/>
-                {
-                    location.pathname.includes('update') ? 
-                        <div className="text-right">
-                            <button type="button" className="btn btn-danger" onClick={() => this.handleClickDeleteElement()}>삭제</button>
-                        </div> : null 
+                { 
+                    genreId !== 0 ?
+                        <div style={{ margin : '10px' }}>
+                            <h1 className="text-center">{ genre.getName } 음악 목록들</h1>
+                            <hr/>
+                            <GenreMusicListView genreId={genreId} />
+                        </div> : null
                 }
-                <form onSubmit={this.handleSubmitData}>
-                    <InputRender label="장르 이름" value={genre.getName} name="name" onChange={this.handleChangeData} error={error.getNameMessage} />
-                    <br/>
-                    <button type="submit" className="btn btn-primary btn-block">{ location.pathname.includes('create') ? '추가' : '수정' } 완료</button>
-                </form>
+                <div style={{ margin : '10px' }}>
+                    <h1 className="text-center">장르 { location.pathname.includes('create') ? '추가' : '수정' }</h1>
+                    <hr/>
+                    {
+                        location.pathname.includes('update') ? 
+                            <div className="text-right">
+                                <button type="button" className="btn btn-danger" onClick={() => this.handleClickDeleteElement()}>삭제</button>
+                            </div> : null 
+                    }
+                    <form onSubmit={this.handleSubmitData}>
+                        <InputRender label="장르 이름" value={genre.getName} name="name" onChange={this.handleChangeData} error={error.getNameMessage} />
+                        <br/>
+                        <button type="submit" className="btn btn-primary btn-block">{ location.pathname.includes('create') ? '추가' : '수정' } 완료</button>
+                    </form>
+                </div>
+                <hr/>
             </React.Fragment>
         );
     }

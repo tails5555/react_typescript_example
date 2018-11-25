@@ -18,7 +18,7 @@ export function music_find_one(id : number) : any {
 
 export function music_find_by_genre(genreId : number) : any {
     return axios({
-        url : `${MUSIC_ROOT_URL}/?genre=${genreId}`,
+        url : `${MUSIC_ROOT_URL}?genre=${genreId}`,
         method : 'get'
     });
 }
