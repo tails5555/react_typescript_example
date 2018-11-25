@@ -41,9 +41,14 @@ class GenreListView extends React.Component<Props, State> {
         GenreListView.isMounted = false;
     }
 
+    public handleClickPushEdit = (id : number) => {
+        const { history } = this.props;
+        history.push(`./genre_update/${id}`);
+    }
+
     public render() {
         const { genres } = this.state;
-        const genreBodyRows : any = genres.map((genre, idx) => <tr key={`genre_key_${idx}`}><td>{genre.getId}</td><td>{genre.getName}</td></tr>);
+        const genreBodyRows : any = genres.map((genre, idx) => <tr key={`genre_key_${idx}`} onClick={() => this.handleClickPushEdit(genre.getId)}><td>{genre.getId}</td><td>{genre.getName}</td></tr>);
         return (
             <React.Fragment>
                 <table className="table text-center">
