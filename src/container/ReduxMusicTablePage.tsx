@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
+import { MusicListView } from '../component/04_Redux_Music_Box';
 import { MusicState } from '../reducer/reducer_music';
-import { MusicModel } from '../action/model';
 
 interface Props extends RouteComponentProps {
     music : MusicState,
@@ -20,22 +20,8 @@ class ReduxMusicTablePage extends React.Component<Props, {}> {
     }
 
     public render() {
-        const { music } = this.props;
+        const { music, history, location, match } = this.props;
         const { loading, error, musics } = music;
-        
-        let musicView = null;
-        if(loading){
-            musicView = <h1>음악 목록을 불러오는 중입니다...</h1>;
-        } else if(error !== null) {
-            musicView = (
-                <div className="text-center">
-                    <h1>음악을 불러오는 도중 오류가 발생했습니다.</h1>
-                    <h2>{error}</h2>
-                </div>
-            )
-        } else {
-            musicView = musics.map((music : MusicModel, idx : number) => <h1 key={`music_${idx}`}>{music.getTitle}</h1>);
-        }
 
         return(
             <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
@@ -47,10 +33,10 @@ class ReduxMusicTablePage extends React.Component<Props, {}> {
                     </Link>
                 </div>
                 <div id="music_view">
-                    {musicView}
+                    <MusicListView loading={loading} error={error} musics={musics} history={history} location={location} match={match} />
                 </div>
                 <Link to="/">
-                    <button className="btn btn-info btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}>이전으로</button>
+                    <button className="btn btn-info btn-block" style={{ marginTop : '10px', marginBottom : '10px' }}><i className="fas fa-arrow-left" /> 이전으로</button>
                 </Link>
             </div>
         );

@@ -30,7 +30,7 @@ const fetchMusicListSuccess : ((response : any) => ActionObj) = (response : any)
     const { data } = response;
     return {
         type : FETCH_MUSIC_LIST_SUCCESS,
-        payload : data.map((music : any) => new MusicModel(music.id, music.title, music.singer, music.genre, music.year, music.publisher))
+        payload : data.map((music : any) => new MusicModel(music.id, music.title, music.singer, music.year, music.genre, music.publisher))
     };
 }
 
