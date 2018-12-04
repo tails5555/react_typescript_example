@@ -18,7 +18,7 @@ const RootRouter : React.StatelessComponent<{}> = () => (
         <Route exact path="/example/genre_list/_refresh" render={() => <Redirect to="/example/genre_list" />} />
         <Route exact path="/example/genre_create" component={GenreEditPage} />
         <Route exact path="/example/genre_update/:id" component={GenreEditPage} />
-        <Route exact path="/example/ts_redux" component={ReduxStoreProvider} />
+        <Route path="/example/ts_redux" component={ReduxStoreProvider} />
     </React.Fragment>
 );
 

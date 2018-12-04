@@ -1,20 +1,19 @@
 import axios from 'axios';
 
 import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk'
 
+import { FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE } from './type/type_music';
 import { MusicModel } from './model';
 
 const ROOT_URL = 'http://127.0.0.1:8000/ex03_api/music';
-
-export const FETCH_MUSIC_LIST : string = 'FETCH_MUSIC_LIST';
-export const FETCH_MUSIC_LIST_SUCCESS : string = 'FETCH_MUSIC_LIST_SUCCESS';
-export const FETCH_MUSIC_LIST_FAILURE : string = 'FETCH_MUSIC_LIST_FAILURE';
-export const RESET_FETCH_MUSIC_LIST : string = 'RESET_FETCH_MUSIC_LIST';
 
 interface ActionObj {
     type : typeof FETCH_MUSIC_LIST;
     payload? : object;
 }
+
+type FetchEntity = (id: string) => ThunkAction<Promise<any>, ActionObj, any, any>;
 
 const fetchMusicListApi : any = () => {
     return axios({
@@ -40,7 +39,7 @@ const fetchMusicListFailure : ((response : any) => ActionObj) = (error : any) =>
     payload : error  
 });
 
-export const fetchMusicListAction = () => (dispatch : Dispatch) => {
+export const fetchMusicListAction : FetchEntity = () => (dispatch : Dispatch) => {
     dispatch(fetchMusicList());
 
     return fetchMusicListApi().then((response : any) => {

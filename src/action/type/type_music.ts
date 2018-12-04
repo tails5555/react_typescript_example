@@ -1,0 +1,3 @@
+export const FETCH_MUSIC_LIST : string = 'FETCH_MUSIC_LIST';
+export const FETCH_MUSIC_LIST_SUCCESS : string = 'FETCH_MUSIC_LIST_SUCCESS';
+export const FETCH_MUSIC_LIST_FAILURE : string = 'FETCH_MUSIC_LIST_FAILURE';
