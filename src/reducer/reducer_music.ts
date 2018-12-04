@@ -1,20 +1,12 @@
-import { Reducer } from 'redux'
+import { Reducer } from 'redux';
+import { MusicModel } from '../action/model';
 import {
     FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE, RESET_FETCH_MUSIC_LIST
 } from '../action/action_music';
 
-interface Music {
-    id : number;
-    title : string;
-    singer : string;
-    genre : number;
-    year : number;
-    publisher : number;
-}
-
 interface MusicState {
-    readonly musics : Music[];
-    readonly music : Music | null;
+    readonly musics : MusicModel[];
+    readonly music : MusicModel | null;
     readonly loading : boolean;
     readonly error : string | null;
     readonly status : number;

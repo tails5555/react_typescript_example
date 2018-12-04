@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import * as Promise from 'redux-promise';
+import reduxThunk from 'redux-thunk';
 import { rootReducer } from '../reducer';
 
 export default function configureStore(initialState? : object) {
     const devToolKeyword : string = 'devToolsExtension';
     const composeStore = compose(
-        applyMiddleware(Promise),
+        applyMiddleware(reduxThunk),
         window[devToolKeyword] ? window[devToolKeyword]() : (f : any) => f
     );
     const store = createStore(rootReducer, initialState, composeStore);

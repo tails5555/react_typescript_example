@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import {HomeContainerPage, CalculatorPage, PhoneBookPage, PhoneFormPage, MusicTablePage, MusicEditPage, GenreListPage, GenreEditPage} from '../container';
+import {HomeContainerPage, CalculatorPage, PhoneBookPage, PhoneFormPage, MusicTablePage, MusicEditPage, GenreListPage, GenreEditPage, ReduxStoreProvider} from '../container';
 
 const RootRouter : React.StatelessComponent<{}> = () => (
     <React.Fragment>
@@ -18,6 +18,7 @@ const RootRouter : React.StatelessComponent<{}> = () => (
         <Route exact path="/example/genre_list/_refresh" render={() => <Redirect to="/example/genre_list" />} />
         <Route exact path="/example/genre_create" component={GenreEditPage} />
         <Route exact path="/example/genre_update/:id" component={GenreEditPage} />
+        <Route exact path="/example/ts_redux" component={ReduxStoreProvider} />
     </React.Fragment>
 );
 
