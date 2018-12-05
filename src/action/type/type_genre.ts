@@ -1,0 +1,3 @@
+export const FETCH_GENRE_LIST : string = 'FETCH_GENRE_LIST';
+export const FETCH_GENRE_LIST_SUCCESS : string = 'FETCH_GENRE_LIST_SUCCESS';
+export const FETCH_GENRE_LIST_FAILURE : string = 'FETCH_GENRE_LIST_FAILURE';

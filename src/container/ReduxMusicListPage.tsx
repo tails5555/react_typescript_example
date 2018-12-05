@@ -9,7 +9,7 @@ interface Props extends RouteComponentProps {
     fetchMusics : () => void
 }
 
-class ReduxMusicTablePage extends React.Component<Props, {}> {
+class ReduxMusicListPage extends React.Component<Props, {}> {
     constructor(props : any){
         super(props);
     }
@@ -29,7 +29,7 @@ class ReduxMusicTablePage extends React.Component<Props, {}> {
                 <hr/>
                 <div id="button_list" className="text-right" style={{ marginTop : '10px', marginBottom : '10px' }}>
                     <Link to="./music_create">
-                        <button className="btn btn-primary" style={{ marginLeft : '10px', marginRight : '10px' }}>음반 추가</button>
+                        <button className="btn btn-primary" style={{ marginLeft : '10px', marginRight : '10px' }}><i className="fas fa-plus" /> 음반 추가</button>
                     </Link>
                 </div>
                 <div id="music_view">
@@ -43,4 +43,4 @@ class ReduxMusicTablePage extends React.Component<Props, {}> {
     }
 }
 
-export default ReduxMusicTablePage;
+export default ReduxMusicListPage;
