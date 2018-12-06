@@ -1,19 +1,20 @@
 import * as React from 'react';
 
-const SelectRender = (field : any) => {
-    const hasError = !!field.meta.error && !!field.meta.touched;
+interface Props {
+    label : string;
+    value : number;
+    name : string;
+    onChange : any;
+    options : any;
+}
 
-    return (
-        <div className={!hasError ? 'form-group' : 'form-group has-error'}>
-            <label className="col-sm-2 control-label" htmlFor={field.input.name}>{field.label}</label>
-            <div className="col-sm-10">
-                <select {...field.input} className="form-control">
-                    {field.optionChildren}
-                </select>
-                {hasError && <span className="help-block">{field.meta.error}</span>}
-            </div>
-        </div>
-    );
-};
+const SelectRender : React.StatelessComponent<Props> = ({ label, value, name, onChange, options }) => (
+    <div className="form-group">
+        <label>{label}</label>
+        <select className="form-control" value={value} name={name} placeholder={label} onChange={onChange}>
+            {options}
+        </select>
+    </div>
+);
 
 export default SelectRender;

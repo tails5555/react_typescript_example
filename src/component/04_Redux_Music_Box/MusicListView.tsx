@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+
 import { MusicModel } from '../../action/model';
 import MusicBriefInfo from './MusicBriefInfo';
 

@@ -1,0 +1,1 @@
+export {default as MusicError} from './MusicError';
