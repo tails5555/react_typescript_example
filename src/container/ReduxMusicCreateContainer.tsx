@@ -1,6 +1,7 @@
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import * as MusicActions from '../action/action_music';
 import * as GenreActions from '../action/action_genre';
 import * as PublisherActions from '../action/action_publisher';
 
@@ -14,6 +15,8 @@ const mapStateToProps = (state : ReducerState) => ({
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => ({
+    createMusic : bindActionCreators(MusicActions.createMusicElementAction, dispatch),
+    resetSaveMusic : bindActionCreators(MusicActions.resetCreateMusicElementAction, dispatch),
     fetchGenres : bindActionCreators(GenreActions.fetchGenreListAction, dispatch),
     fetchPublishers : bindActionCreators(PublisherActions.fetchPublisherListAction, dispatch)
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { MusicForm } from './model';
+import { MusicForm } from './../../action/form';
 import { MusicError } from './error';
 
 import { InputRender, SelectRender } from './form';
@@ -15,6 +15,7 @@ interface Props extends RouteComponentProps<any> {
     publishers : PublisherModel[];
     publisherLoading : boolean;
     publisherError : string | null;
+    handleCreate : (form : MusicForm) => void;
 }
 
 interface State {
@@ -75,7 +76,9 @@ class MusicEditView extends React.Component<Props, State> {
         } else {
             const { pathname } = location;
             if(pathname.includes('create')) {
-                alert('추가 완료');              
+                const { handleCreate } = this.props;
+                handleCreate(musicForm);
+                alert('추가 완료');
             } else {
                 alert('수정 완료');
             }

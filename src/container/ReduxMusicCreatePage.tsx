@@ -6,13 +6,16 @@ import { MusicEditView } from '../component/04_Redux_Music_Box';
 import { GenreState } from '../reducer/reducer_genre';
 import { PublisherState } from '../reducer/reducer_publisher';
 import { MusicState } from '../reducer/reducer_music';
+import { MusicForm } from '../action/form';
 
 interface Props extends RouteComponentProps {
-    music : MusicState,
-    genre : GenreState,
-    publisher : PublisherState,
-    fetchGenres : () => void,
-    fetchPublishers : () => void,
+    music : MusicState;
+    genre : GenreState;
+    publisher : PublisherState;
+    fetchGenres : () => void;
+    fetchPublishers : () => void;
+    createMusic : (form : MusicForm) => void;
+    resetSaveMusic : () => void;
 }
 
 class ReduxMusicCreatePage extends React.Component<Props, {}> {
@@ -27,13 +30,13 @@ class ReduxMusicCreatePage extends React.Component<Props, {}> {
     }
 
     public render() {
-        const { genre, publisher, history, location, match } = this.props;
+        const { genre, publisher, createMusic, history, location, match } = this.props;
 
         return(
             <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
                 <div id="music_view">
                     <MusicEditView 
-                        history={history} location={location} match={match} music={null}
+                        history={history} location={location} match={match} music={null} handleCreate={createMusic}
                         genres={genre.genres} genreLoading={genre.loading} genreError={genre.error}
                         publishers={publisher.publishers} publisherLoading={publisher.loading} publisherError={publisher.error}
                     />
