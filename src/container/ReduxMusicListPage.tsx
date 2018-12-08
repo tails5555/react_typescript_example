@@ -5,7 +5,7 @@ import { MusicListView } from '../component/04_Redux_Music_Box';
 import { MusicState } from '../reducer/reducer_music';
 
 interface Props extends RouteComponentProps {
-    music : MusicState,
+    musicState : MusicState,
     fetchMusics : () => void
 }
 
@@ -20,8 +20,8 @@ class ReduxMusicListPage extends React.Component<Props, {}> {
     }
 
     public render() {
-        const { music, history, location, match } = this.props;
-        const { loading, error, musics } = music;
+        const { musicState, history, location, match } = this.props;
+        const { loading, error, musics } = musicState;
 
         return(
             <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>

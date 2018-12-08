@@ -9,9 +9,9 @@ import { ReducerState } from '../reducer';
 import ReduxMusicCreatePage from './ReduxMusicCreatePage';
 
 const mapStateToProps = (state : ReducerState) => ({
-    music : state.music,
-    genre : state.genre,
-    publisher : state.publisher
+    musicState : state.music,
+    genreState : state.genre,
+    publisherState : state.publisher
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => ({

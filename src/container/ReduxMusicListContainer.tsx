@@ -6,7 +6,7 @@ import { ReducerState } from '../reducer';
 import ReduxMusicListPage from './ReduxMusicListPage';
 
 const mapStateToProps = (state : ReducerState) => ({
-    music : state.music
+    musicState : state.music
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => ({

@@ -78,7 +78,6 @@ class MusicEditView extends React.Component<Props, State> {
             if(pathname.includes('create')) {
                 const { handleCreate } = this.props;
                 handleCreate(musicForm);
-                alert('추가 완료');
             } else {
                 alert('수정 완료');
             }
