@@ -94,7 +94,7 @@ class MusicModelForm extends React.Component<Props, State> {
         if(hasError) {
             this.setState({error});
         } else {
-            const { pathname } = location;
+            const { pathname } = history.location;
             if(pathname.includes('create')) {
                 music_create(music).then((response : any) => {
                     const { status } = response;

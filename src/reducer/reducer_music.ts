@@ -2,12 +2,15 @@ import { Reducer } from 'redux';
 import { MusicModel } from '../action/model';
 import {
     FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE,
-    CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
+    FETCH_MUSIC_ELEMENT, FETCH_MUSIC_ELEMENT_SUCCESS, FETCH_MUSIC_ELEMENT_FAILURE, RESET_FETCH_MUSIC_ELEMENT,
+    CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE, 
+    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
 } from '../action/type/type_music';
 
 export interface MusicState {
     readonly musics : MusicModel[];
     readonly music : MusicModel | null;
+    readonly type : string | null;
     readonly loading : boolean;
     readonly error : string | null;
     readonly status : number;
@@ -16,6 +19,7 @@ export interface MusicState {
 const INITIAL_STATE : MusicState = {
     musics : [],
     music : null,
+    type : null,
     loading : false,
     error : null,
     status : 0
@@ -30,10 +34,23 @@ export const musicReducer : Reducer<MusicState> = (state = INITIAL_STATE, action
         case FETCH_MUSIC_LIST_FAILURE :
             return { ...state, loading : false, error : action.payload };
         
+        case FETCH_MUSIC_ELEMENT :
+            return { ...state, loading : true };
+        case FETCH_MUSIC_ELEMENT_SUCCESS :
+            return { ...state, loading : false, music : action.payload, type : 'FETCH' };
+        case FETCH_MUSIC_ELEMENT_FAILURE :
+            return { ...state, loading : false, error : action.payload };
+        case RESET_FETCH_MUSIC_ELEMENT :
+            return { ...state, music : null, error : null };
+
         case CREATE_MUSIC_ELEMENT :
+        case UPDATE_MUSIC_ELEMENT :
             return { ...state, loading : true };
         case CREATE_MUSIC_ELEMENT_SUCCESS :
-            return { ...state, loading : false, music : action.payload };
+            return { ...state, loading : false, music : action.payload, type : 'CREATE' };
+        case UPDATE_MUSIC_ELEMENT_SUCCESS :
+            return { ...state, loading : false, music : action.payload, type : 'UPDATE' };
+        case UPDATE_MUSIC_ELEMENT_FAILURE :
         case CREATE_MUSIC_ELEMENT_FAILURE :
             return { ...state, loading : false, error : action.payload };
         case RESET_SAVE_MUSIC_ELEMENT :

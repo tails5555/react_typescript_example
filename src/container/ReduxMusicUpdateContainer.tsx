@@ -6,7 +6,7 @@ import * as GenreActions from '../action/action_genre';
 import * as PublisherActions from '../action/action_publisher';
 
 import { ReducerState } from '../reducer';
-import ReduxMusicCreatePage from './ReduxMusicCreatePage';
+import ReduxMusicUpdatePage from './ReduxMusicUpdatePage';
 
 const mapStateToProps = (state : ReducerState) => ({
     musicState : state.music,
@@ -15,10 +15,12 @@ const mapStateToProps = (state : ReducerState) => ({
 });
 
 const mapDispatchToProps = (dispatch : Dispatch) => ({
-    createMusic : bindActionCreators(MusicActions.createMusicElementAction, dispatch),
+    fetchMusic : bindActionCreators(MusicActions.fetchMusicElementAction, dispatch),
+    resetFetchMusic : bindActionCreators(MusicActions.resetFetchMusicElementAction, dispatch),
+    updateMusic : bindActionCreators(MusicActions.updateMusicElementAction, dispatch),
     resetSaveMusic : bindActionCreators(MusicActions.resetSaveMusicElementAction, dispatch),
     fetchGenres : bindActionCreators(GenreActions.fetchGenreListAction, dispatch),
     fetchPublishers : bindActionCreators(PublisherActions.fetchPublisherListAction, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReduxMusicCreatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReduxMusicUpdatePage);

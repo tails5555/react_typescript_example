@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { MusicListView } from '../component/04_Redux_Music_Box';
 import { MusicState } from '../reducer/reducer_music';
 
-interface Props extends RouteComponentProps {
+interface Props extends RouteComponentProps<any> {
     musicState : MusicState,
     fetchMusics : () => void
 }

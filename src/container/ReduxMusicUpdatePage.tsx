@@ -12,50 +12,68 @@ interface Props extends RouteComponentProps<any> {
     musicState : MusicState;
     genreState : GenreState;
     publisherState : PublisherState;
+    fetchMusic : (id : number) => void;
+    resetFetchMusic : () => void;
     fetchGenres : () => void;
     fetchPublishers : () => void;
-    createMusic : (form : MusicForm) => void;
+    updateMusic : (id : number, form : MusicForm) => void;
     resetSaveMusic : () => void;
 }
 
-class ReduxMusicCreatePage extends React.Component<Props, {}> {
+class ReduxMusicUpdatePage extends React.Component<Props, {}> {
     constructor(props : any){
         super(props);
     }
 
     public componentDidMount() {
-        const { fetchGenres, fetchPublishers } = this.props;
+        const { fetchMusic, fetchGenres, fetchPublishers, match } = this.props;
+        const { id } = match.params;
+        if(id !== null){
+            fetchMusic(id);
+        }
         fetchGenres();
         fetchPublishers();
     }
 
-    public componentDidUpdate(prevProps : any, prevState : any){
+    public componentDidUpdate(prevProps : Props, prevState : any){
         const { musicState, resetSaveMusic, history } = this.props;
         const { music, error, type } = musicState;
-        if(music !== null && type === 'CREATE'){
-            alert(`음악이 새로 추가 되었습니다.\n음악 제목 : ${music.getTitle}`);
+        if(music !== null && type === 'UPDATE'){
+            alert(`음악이 수정 되었습니다.\n음악 제목 : ${music.getTitle}`);
             resetSaveMusic();
-            history.push('./music_list');
+            history.push('/example/ts_redux/music_list');
         } else if(error !== null && prevProps.musicState.error !== error){
             alert(error);
             resetSaveMusic();
-            history.push('./music_list');
+            history.push('/example/ts_redux/music_list');
         }
     }
 
+    public componentWillUnmount(){
+        const { resetFetchMusic, resetSaveMusic } = this.props;
+        resetFetchMusic();
+        resetSaveMusic();
+    }
+
     public render() {
-        const { musicState, genreState, publisherState, createMusic, history, location, match } = this.props;
-        const { loading } = musicState;
-        const loadingState = (loading) ? 
-            <div className="text-center">
-                <h2><i className="fas fa-spinner fa-spin" /> 음악을 저장하는 중입니다...</h2>
-            </div> : null;
+        const { musicState, genreState, publisherState, updateMusic, history, location, match } = this.props;
+        const { loading, music } = musicState;
+        const loadingState = 
+            (loading === true) ?
+                (music !== null) ? 
+                    <div className="text-center">
+                        <h2><i className="fas fa-spinner fa-spin" /> 음악을 저장하는 중입니다...</h2>
+                    </div> : 
+                    <div className="text-center">
+                        <h2><i className="fas fa-spinner fa-spin" /> 음악을 불러오는 중입니다...</h2>
+                    </div> 
+                : null
 
         return(
             <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
                 <div id="music_view" style={{ marginTop : '10px', marginBottom : '10px' }}>
                     <MusicEditView 
-                        history={history} location={location} match={match} music={null} handleCreate={createMusic} handleUpdate={null}
+                        history={history} location={location} match={match} music={musicState.music} handleCreate={null} handleUpdate={updateMusic}
                         genres={genreState.genres} genreLoading={genreState.loading} genreError={genreState.error}
                         publishers={publisherState.publishers} publisherLoading={publisherState.loading} publisherError={publisherState.error}
                     />
@@ -68,4 +86,4 @@ class ReduxMusicCreatePage extends React.Component<Props, {}> {
     }
 }
 
-export default ReduxMusicCreatePage;
+export default ReduxMusicUpdatePage;

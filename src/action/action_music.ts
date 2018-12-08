@@ -5,7 +5,9 @@ import { ThunkAction } from 'redux-thunk'
 
 import { 
     FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE,
-    CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
+    FETCH_MUSIC_ELEMENT, FETCH_MUSIC_ELEMENT_SUCCESS, FETCH_MUSIC_ELEMENT_FAILURE, RESET_FETCH_MUSIC_ELEMENT,
+    CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE,
+    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
 } from './type/type_music';
 
 import { MusicModel } from './model';
@@ -18,8 +20,11 @@ interface ActionObj {
     payload? : object;
 }
 
-type FetchEntity = (id: string) => ThunkAction<Promise<any>, ActionObj, any, any>;
+type FetchListEntity = () => ThunkAction<Promise<any>, ActionObj, any, any>;
+type FetchElementEntity = (id : number) => ThunkAction<Promise<any>, ActionObj, any, any>;
 type CreateEntity = (form : MusicForm) => ThunkAction<Promise<any>, ActionObj, any, any>;
+type UpdateEntity = (id : number, form : MusicForm) => ThunkAction<Promise<any>, ActionObj, any, any>;
+type ResetEntity = (dispatch : Dispatch) => void;
 
 const fetchMusicListApi : any = () => {
     return axios({
@@ -45,7 +50,7 @@ const fetchMusicListFailure : ((error : any) => ActionObj) = (error : any) => ({
     payload : error  
 });
 
-export const fetchMusicListAction : FetchEntity = () => (dispatch : Dispatch) => {
+export const fetchMusicListAction : FetchListEntity = () => (dispatch : Dispatch) => {
     dispatch(fetchMusicList());
 
     return fetchMusicListApi().then((response : any) => {
@@ -55,6 +60,50 @@ export const fetchMusicListAction : FetchEntity = () => (dispatch : Dispatch) =>
     }).catch((error : any) => {
         dispatch(fetchMusicListFailure(error && error.message));
     });
+}
+
+const fetchMusicElementApi : any = (id : number) => {
+    return axios({
+        url : `${ROOT_URL}/${id}`,
+        method : 'get'
+    });
+}
+
+const fetchMusicElement : (() => ActionObj) = () => ({
+    type : FETCH_MUSIC_ELEMENT
+});
+
+const fetchMusicElementSuccess : ((response : any) => ActionObj) = (response : any) => {
+    const { data } = response;
+    return {
+        type : FETCH_MUSIC_ELEMENT_SUCCESS,
+        payload : new MusicModel(data.id, data.title, data.singer, data.year, data.genre, data.publisher)
+    };
+}
+
+const fetchMusicElementFailure : ((error : any) => ActionObj) = (error : any) => ({
+    type : FETCH_MUSIC_ELEMENT_FAILURE,
+    payload : error
+});
+
+const resetFetchMusicElement : (() => ActionObj) = () => ({
+    type : RESET_FETCH_MUSIC_ELEMENT
+});
+
+export const fetchMusicElementAction : FetchElementEntity = (id : number) => (dispatch : Dispatch) => {
+    dispatch(fetchMusicElement());
+
+    return fetchMusicElementApi(id).then((response : any) => {
+        setTimeout(() => {
+            dispatch(fetchMusicElementSuccess(response));
+        }, 2000);
+    }).catch((error : any) => {
+        dispatch(fetchMusicElementFailure(error && error.message));
+    });
+}
+
+export const resetFetchMusicElementAction : ResetEntity = () => (dispatch : Dispatch) => {
+    dispatch(resetFetchMusicElement());
 }
 
 const createMusicElementApi : any = (form : MusicForm) => {
@@ -89,10 +138,6 @@ const createMusicElementFailure : ((error : any) => ActionObj) = (error : any) =
     payload : error
 });
 
-const resetCreateMusicElement : (() => ActionObj) = () => ({
-    type : RESET_SAVE_MUSIC_ELEMENT
-});
-
 export const createMusicElementAction : CreateEntity = (form : MusicForm) => (dispatch : Dispatch) => {
     dispatch(createMusicElement());
 
@@ -105,6 +150,54 @@ export const createMusicElementAction : CreateEntity = (form : MusicForm) => (di
     });
 }
 
-export const resetCreateMusicElementAction : ((dispatch : Dispatch) => void) = () => (dispatch : Dispatch) => {
-    dispatch(resetCreateMusicElement());
+const updateMusicElementApi : any = (id : number, form : MusicForm) => {
+    return axios({
+        url : `${ROOT_URL}/${id}`,
+        method : 'put',
+        data : {
+            id,
+            title : form.getTitle,
+            singer : form.getSinger,
+            year : form.getYear,
+            genre : form.getGenreId,
+            publisher : form.getPublisherId
+        }
+    });
+}
+
+const updateMusicElement : (() => ActionObj) = () => ({
+    type : UPDATE_MUSIC_ELEMENT
+});
+
+const updateMusicElementSuccess : ((response : any) => ActionObj) = (response : any) => {
+    const { data } = response;
+    return {
+        type : UPDATE_MUSIC_ELEMENT_SUCCESS,
+        payload : new MusicModel(data.id, data.title, data.singer, data.year, data.genre, data.publisher)
+    };
+}
+
+const updateMusicElementFailure : ((error : any) => ActionObj) = (error : any) => ({
+    type : UPDATE_MUSIC_ELEMENT_FAILURE,
+    payload : error
+});
+
+export const updateMusicElementAction : UpdateEntity = (id : number, form : MusicForm) => (dispatch : Dispatch) => {
+    dispatch(updateMusicElement());
+
+    return updateMusicElementApi(id, form).then((response : any) => {
+        setTimeout(() => {
+            dispatch(updateMusicElementSuccess(response));
+        }, 2000);
+    }).catch((error : any) => {
+        dispatch(updateMusicElementFailure(error && error.message));
+    });
+}
+
+const resetSaveMusicElement : (() => ActionObj) = () => ({
+    type : RESET_SAVE_MUSIC_ELEMENT
+});
+
+export const resetSaveMusicElementAction : ResetEntity = () => (dispatch : Dispatch) => {
+    dispatch(resetSaveMusicElement());
 }

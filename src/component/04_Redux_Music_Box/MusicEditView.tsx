@@ -15,7 +15,8 @@ interface Props extends RouteComponentProps<any> {
     publishers : PublisherModel[];
     publisherLoading : boolean;
     publisherError : string | null;
-    handleCreate : (form : MusicForm) => void;
+    handleCreate : ((form : MusicForm) => void) | null;
+    handleUpdate : ((id : number, form : MusicForm) => void) | null;
 }
 
 interface State {
@@ -24,21 +25,11 @@ interface State {
 }
 
 class MusicEditView extends React.Component<Props, State> {
-    constructor(props : any){
+    constructor(props : Props){
         super(props);
         this.state = { musicForm : new MusicForm('', '', '', 1, 1), musicError : new MusicError('', '', '') };
         this.handleSubmitData = this.handleSubmitData.bind(this);
         this.handleChangeData = this.handleChangeData.bind(this);
-    }
-
-    public componentDidMount() {
-        const { location, match } = this.props;
-        if(location.pathname.includes('update')) {
-            const { id } = match.params;
-            if(!isNaN(id)){
-                alert(id);
-            }
-        }
     }
 
     public handleSubmitData = (event : any) => {
@@ -46,6 +37,7 @@ class MusicEditView extends React.Component<Props, State> {
 
         let hasError = false;
         const { musicError, musicForm } = this.state;
+        const { match, location, handleCreate, handleUpdate } = this.props;
 
         if(musicForm.getTitle.trim() === ''){
             musicError.setTitleMessage = '노래 제목을 입력하시길 바랍니다.';
@@ -72,15 +64,27 @@ class MusicEditView extends React.Component<Props, State> {
         }
 
         if(hasError) {
-            this.setState({musicError});
+            this.setState({ musicError });
         } else {
             const { pathname } = location;
             if(pathname.includes('create')) {
-                const { handleCreate } = this.props;
-                handleCreate(musicForm);
+                if(handleCreate !== null){
+                    handleCreate(musicForm);
+                }
             } else {
-                alert('수정 완료');
+                if(handleUpdate !== null) {
+                    handleUpdate(Number(match.params.id), musicForm);
+                }
             }
+        }
+    }
+
+    public componentDidUpdate(prevProps : Props, prevState : State){
+        const { music } = this.props;
+        if(music !== null && prevProps.music !== music){
+            this.setState({
+                musicForm : new MusicForm(music.getTitle, music.getSinger, String(music.getYear), music.getGenreId, music.getPublisherId)
+            });
         }
     }
 
@@ -117,7 +121,7 @@ class MusicEditView extends React.Component<Props, State> {
 
     public handleClickBack = () => {
         const { history } = this.props;
-        history.push('./music_list');
+        history.push('/example/ts_redux/music_list');
     }
 
     public render(){
