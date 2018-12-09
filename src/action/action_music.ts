@@ -7,7 +7,7 @@ import {
     FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE,
     FETCH_MUSIC_ELEMENT, FETCH_MUSIC_ELEMENT_SUCCESS, FETCH_MUSIC_ELEMENT_FAILURE, RESET_FETCH_MUSIC_ELEMENT,
     CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE,
-    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
+    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT, DELETE_MUSIC_ELEMENT, DELETE_MUSIC_ELEMENT_SUCCESS, DELETE_MUSIC_ELEMENT_FAILURE
 } from './type/type_music';
 
 import { MusicModel } from './model';
@@ -25,6 +25,7 @@ type FetchElementEntity = (id : number) => ThunkAction<Promise<any>, ActionObj, 
 type CreateEntity = (form : MusicForm) => ThunkAction<Promise<any>, ActionObj, any, any>;
 type UpdateEntity = (id : number, form : MusicForm) => ThunkAction<Promise<any>, ActionObj, any, any>;
 type ResetEntity = (dispatch : Dispatch) => void;
+type DeleteEntity = (id : number) => ThunkAction<Promise<any>, ActionObj, any, any>;
 
 const fetchMusicListApi : any = () => {
     return axios({
@@ -200,4 +201,40 @@ const resetSaveMusicElement : (() => ActionObj) = () => ({
 
 export const resetSaveMusicElementAction : ResetEntity = () => (dispatch : Dispatch) => {
     dispatch(resetSaveMusicElement());
+}
+
+const deleteMusicElementApi : any = (id : number) => {
+    return axios({
+        url : `${ROOT_URL}/${id}`,
+        method : 'delete'
+    });
+}
+
+const deleteMusicElement : (() => ActionObj) = () => ({
+    type : DELETE_MUSIC_ELEMENT
+})
+
+const deleteMusicElementSuccess : ((response : any) => ActionObj) = (response : any) => {
+    const { status } = response;
+    return {
+        type : DELETE_MUSIC_ELEMENT_SUCCESS,
+        payload : status
+    };
+}
+
+const deleteMusicElementFailure : ((error : any) => ActionObj) = (error : any) => ({
+    type : DELETE_MUSIC_ELEMENT_FAILURE,
+    payload : error
+});
+
+export const deleteMusicElementAction : DeleteEntity = (id : number) => (dispatch : Dispatch) => {
+    dispatch(deleteMusicElement());
+    
+    return deleteMusicElementApi(id).then((response : any) => {
+        setTimeout(() => {
+            dispatch(deleteMusicElementSuccess(response));
+        }, 2000);
+    }).catch((error : any) => {
+        dispatch(deleteMusicElementFailure(error && error.message));
+    });
 }

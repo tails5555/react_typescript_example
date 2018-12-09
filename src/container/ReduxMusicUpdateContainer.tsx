@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch : Dispatch) => ({
     resetFetchMusic : bindActionCreators(MusicActions.resetFetchMusicElementAction, dispatch),
     updateMusic : bindActionCreators(MusicActions.updateMusicElementAction, dispatch),
     resetSaveMusic : bindActionCreators(MusicActions.resetSaveMusicElementAction, dispatch),
+    deleteMusic : bindActionCreators(MusicActions.deleteMusicElementAction, dispatch),
     fetchGenres : bindActionCreators(GenreActions.fetchGenreListAction, dispatch),
     fetchPublishers : bindActionCreators(PublisherActions.fetchPublisherListAction, dispatch)
 });

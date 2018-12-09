@@ -17,6 +17,7 @@ interface Props extends RouteComponentProps<any> {
     publisherError : string | null;
     handleCreate : ((form : MusicForm) => void) | null;
     handleUpdate : ((id : number, form : MusicForm) => void) | null;
+    handleDelete : ((id : number) => void) | null;
 }
 
 interface State {
@@ -113,9 +114,10 @@ class MusicEditView extends React.Component<Props, State> {
 
     public handleClickDeleteElement = () => {
         const { musicForm } = this.state;
+        const { handleDelete, match } = this.props;
         const isDelete = window.confirm(`${musicForm.getTitle} 음악을 삭제 합니다. 계속 진행 하시겠습니까?`);
-        if(isDelete){
-            alert('삭제 완료!');
+        if(isDelete && handleDelete !== null){
+            handleDelete(Number(match.params.id));
         }
     }
 
@@ -125,7 +127,7 @@ class MusicEditView extends React.Component<Props, State> {
     }
 
     public render(){
-        const { location, genres, genreLoading, genreError, publishers, publisherLoading, publisherError } = this.props;
+        const { location, genres, genreLoading, genreError, publishers, publisherLoading, publisherError, handleDelete } = this.props;
         const { musicForm, musicError } = this.state;
         const genreState = 
             genreLoading ? 
@@ -147,9 +149,9 @@ class MusicEditView extends React.Component<Props, State> {
                 <h1>음악 { location.pathname.includes('create') ? '추가' : '수정' }</h1>
                 <hr/>
                 {
-                    location.pathname.includes('update') ? 
+                    location.pathname.includes('update') && handleDelete !== null ? 
                         <div className="text-right">
-                            <button type="button" className="btn btn-danger" onClick={() => this.handleClickDeleteElement()}>삭제</button>
+                            <button type="button" className="btn btn-danger" onClick={() => this.handleClickDeleteElement()}><i className="fas fa-trash-alt" /> 삭제</button>
                         </div> : null 
                 }
                 <form onSubmit={this.handleSubmitData}>

@@ -55,7 +55,8 @@ class ReduxMusicCreatePage extends React.Component<Props, {}> {
             <div className="container" style={{ marginTop : '10px', marginBottom : '10px' }}>
                 <div id="music_view" style={{ marginTop : '10px', marginBottom : '10px' }}>
                     <MusicEditView 
-                        history={history} location={location} match={match} music={null} handleCreate={createMusic} handleUpdate={null}
+                        history={history} location={location} match={match}
+                        music={null} handleCreate={createMusic} handleUpdate={null} handleDelete={null}
                         genres={genreState.genres} genreLoading={genreState.loading} genreError={genreState.error}
                         publishers={publisherState.publishers} publisherLoading={publisherState.loading} publisherError={publisherState.error}
                     />

@@ -4,7 +4,8 @@ import {
     FETCH_MUSIC_LIST, FETCH_MUSIC_LIST_SUCCESS, FETCH_MUSIC_LIST_FAILURE,
     FETCH_MUSIC_ELEMENT, FETCH_MUSIC_ELEMENT_SUCCESS, FETCH_MUSIC_ELEMENT_FAILURE, RESET_FETCH_MUSIC_ELEMENT,
     CREATE_MUSIC_ELEMENT, CREATE_MUSIC_ELEMENT_SUCCESS, CREATE_MUSIC_ELEMENT_FAILURE, 
-    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT
+    UPDATE_MUSIC_ELEMENT, UPDATE_MUSIC_ELEMENT_SUCCESS, UPDATE_MUSIC_ELEMENT_FAILURE, RESET_SAVE_MUSIC_ELEMENT,
+    DELETE_MUSIC_ELEMENT, DELETE_MUSIC_ELEMENT_SUCCESS, DELETE_MUSIC_ELEMENT_FAILURE
 } from '../action/type/type_music';
 
 export interface MusicState {
@@ -53,9 +54,17 @@ export const musicReducer : Reducer<MusicState> = (state = INITIAL_STATE, action
         case UPDATE_MUSIC_ELEMENT_FAILURE :
         case CREATE_MUSIC_ELEMENT_FAILURE :
             return { ...state, loading : false, error : action.payload };
+        
+        case DELETE_MUSIC_ELEMENT :
+            return { ...state, type : 'DELETE', loading : true };
+        case DELETE_MUSIC_ELEMENT_SUCCESS :
+            return { ...state, loading : false, status : action.payload, type : 'DELETE' };
+        case DELETE_MUSIC_ELEMENT_FAILURE :
+            return { ...state, loading : false, error : action.payload };
+        
         case RESET_SAVE_MUSIC_ELEMENT :
-            return { ...state, music : null, error : null };
-            
+            return { ...state, music : null, status : 0, error : null, type : null };
+        
         default :
             return state;
     }
